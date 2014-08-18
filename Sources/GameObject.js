@@ -1,3 +1,8 @@
+/* 
+	
+	
+	METHODES A FAIRE
+ */
 function GameObject(name)
 {
 	/* IDENTITE OF GAMEOBJECT */

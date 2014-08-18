@@ -1,3 +1,12 @@
+/* 
+	image est un élément javascript natif de type HTMLImageElement.
+	sx est l'abcisse de départ du clipage
+	sy est l'ordonnée de départ du clipage
+	swidth est la largeur à clipper
+	sheight est la hauteur à clipper
+	
+	METHODES A FAIRE
+ */
 function Mesh(img)
 {
 	/* IDENTITY OF MESH */
@@ -10,10 +19,6 @@ function Mesh(img)
 		// Rotation z
 		this.z = 0;
 	/* TRANSFORM OF IMAGE - Cf. canvas.context.drawImage */
-		// Image Width
-		this.width = 0;
-		// Image Height
-		this.height = 0;
 		// Start Position x
 		this.sx = 0;
 		// Start Position y
