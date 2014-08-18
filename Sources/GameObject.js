@@ -32,4 +32,6 @@ function GameObject(name)
 		this.audioListeners = new Array();
 		// Cameras
 		this.cameras = new Array();
+		// Scripts
+		this.scripts = new Array();
 }
