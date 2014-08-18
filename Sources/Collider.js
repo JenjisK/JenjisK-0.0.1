@@ -16,5 +16,6 @@ function Collider()
 	/* PROPERTIES OF COLLIDER */
 		// Is Trigger (précise que le Collider est en fait un Trigger (= zone de déclenchement))
 		this.isTrigger = false;
-		
+		// Shape - la forme du collider, c'est l'élément essentiel pour le moteur physique
+		this.shape = false;
 }
