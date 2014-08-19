@@ -6,7 +6,7 @@
 		x,y = abcisses et ordonnées des Vectors
 		s,t = Segments
 */
-/* WARNING : 
+/* WARNING : Modifications
 	De légères modifications pourront être opérer sur de fonctions du type "normalize".
 	Il faut par exemple voir si pour cette fonction il faut retourner un vecteur normalisé ou
 	si il faut normaliser le vecteur (deuxième option choisie actuellement, possiblement non
