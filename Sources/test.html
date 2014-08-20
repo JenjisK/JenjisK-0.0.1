@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<style>#game{ border : 1px solid grey; position : absolute; top : 100px; left : 200px;}</style>
+	</head>
+	<body>
+		<canvas id='game' width=1000 height=562></canvas>
+		<script src='Geometry/Vector.js'></script>
+		<script src='Geometry/Segment.js'></script>
+		<script src='Geometry/Shape.js'></script>
+		<script src='test.js'></script>
+		<script>
+			var game = document.getElementById('game');
+			var ctx = game.getContext('2d');
+			
+			/* Initialisation du test */
+			var circle = new Circle();
+				circle.center = new Vector(100,100);
+				circle.radius = 50;
+				ctx.drawCircle(circle);
+			var segment = new Segment(new Vector(0,0), new Vector(0,0));
+				ctx.drawSegment(segment);
+			var segmentIntersection = new Segment(new Vector(0,0), new Vector(0,0));
+				ctx.drawSegment(segmentIntersection);
+			
+			
+			/* Actions à produire lors des différentes actions sur le canvas */
+			game.onmousemove = function(e)
+			{
+				// Quand on bouge, on déplace la fin du segment
+				ctx.clear();
+				segment.v = z_object_click_position(game, e);
+				ctx.drawCircle(circle);
+				ctx.drawSegment(segment);
+				var intersection = segment.intersectCircle(circle);
+				if(intersection)
+				console.log(intersection);
+			}
+			game.onmousedown = function(e)
+			{
+				// Quand on clique, on déplace le début du segment
+				ctx.clear();
+				segment.u = z_object_click_position(game, e);
+				segment.v = z_object_click_position(game, e);
+				ctx.drawCircle(circle);
+				ctx.drawSegment(segment);
+			}
+			game.onmouseup = function(e)
+			{
+				
+			}
+			/*document.onkeydown = function(e)
+			{
+				switch(e.keyCode)
+				{
+					case 90 : up = true; break;
+					case 83 : down = true; break;
+					case 81 : left = true; break;
+					case 68 : right = true; break;
+				}
+			}*/
+			/*document.onkeyup = function(e)
+			{
+				switch(e.keyCode)
+				{
+					case 90 : up = false; break;
+					case 83 : down = false; break;
+					case 81 : left = false; break;
+					case 68 : right = false; break;
+				}
+			}*/
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
