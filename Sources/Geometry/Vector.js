@@ -25,6 +25,11 @@ function Vector(x,y)
 	Vector.prototype.normal = function(){ 			// Retourne le vecteur directement normal à THIS
 		return new Vector(this.y, -this.x);
 	}
+	Vector.prototype.angle = function(w){			// TO TEST - Détermine l'angle entre THIS et w
+		var v = Vector.normalize(this);
+		var u = Vector.normalize(w);
+		return (Vector.vectorProduct(v,u) > 0)?Math.acos(Vector.scalarProduct(v,u)):-Math.acos(Vector.scalarProduct(v,u));
+	}
 	/* SETTERS */
 	Vector.prototype.setNorm = function(newNorm){ 	// Défini newNorme comme nouvelle norme de THIS
 		var norm = this.norm();
