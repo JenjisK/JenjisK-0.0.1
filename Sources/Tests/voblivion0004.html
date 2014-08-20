@@ -1,0 +1,106 @@
+<!-- 
+	FONCTIONS TESTEES :
+		*	
+-->
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<style>#game{ border : 1px solid grey; position : absolute; top : 0px; left : 0px;}</style>
+	</head>
+	<body>
+		<!-- CANVAS -->
+		<canvas id='game' width=1000 height=562></canvas>
+		<!-- SCRIPTS -->
+		<script src='../Geometry/Vector.js'></script>
+		<script src='../Geometry/Segment.js'></script>
+		<script src='../Geometry/Arc.js'></script>
+		<script src='../Geometry/Shape.js'></script>
+		<!-- SCRIPT pour les test (quelques fonctions provisoires récurrentes) -->
+		<script src='test.js'></script>
+		<!-- SCRIPT -->
+		<script>
+			/* Récupération des éléments du DOM */
+			var game = document.getElementById('game');
+			var ctx = game.getContext('2d');
+			
+			/* Initialisation du test */
+				var a = new Arc(new Vector(100,100), new Vector(50,20), 2);
+				console.log(a);
+				ctx.drawArc(a);
+				var c = 0;
+				
+				var s = new Segment(new Vector(200, 50), new Vector(50, 200));
+				ctx.drawSegment(s);
+			
+			
+			/* Actions */
+			game.onmousemove = function(e)
+			{
+				if(c == 0)
+				{
+					var i = a.intersectSegment(s);
+					console.log(i);
+					a.setStart(Vector.minus(z_object_click_position(game, e), a.center));
+					ctx.clear();
+					ctx.drawArc(a);
+					ctx.drawSegment(s);
+				}
+				else if(c == 1)
+				{
+					var i = a.intersectSegment(s);
+					console.log(i);
+					a.alpha = a.start.angle(Vector.minus(z_object_click_position(game, e), a.center));
+					ctx.clear();
+					ctx.drawArc(a);
+					ctx.drawSegment(s);
+				}
+				else
+				{
+					var i = a.intersectSegment(s);
+					console.log(i);
+					a.center = z_object_click_position(game, e);
+					ctx.clear();
+					ctx.drawArc(a);
+					ctx.drawSegment(s);
+				}
+			}
+			game.onmousedown = function(e)
+			{
+				c = (c+1)%3;
+			}
+			game.onmouseup = function(e)
+			{
+				/* Ici on ajoute le code à executer quand la souris termine un clique (relache) sur le canvas */
+			}
+			document.onkeydown = function(e)
+			{
+				switch(e.keyCode)
+				{
+					case 90 : break; // z
+					case 83 : break; // s
+					case 81 : break; // q
+					case 68 : break; // d
+				}
+			}
+			document.onkeyup = function(e)
+			{
+				switch(e.keyCode)
+				{
+					case 90 : break; // z
+					case 83 : break; // s
+					case 81 : break; // q
+					case 68 : break; // d
+				}
+			}
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
