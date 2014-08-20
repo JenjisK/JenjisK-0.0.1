@@ -1,0 +1,75 @@
+<!-- 
+	FONCTIONS TESTEES :
+		*
+		*
+		*
+-->
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<style>#game{ border : 1px solid grey; position : absolute; top : 100px; left : 200px;}</style>
+	</head>
+	<body>
+		<!-- CANVAS -->
+		<canvas id='game' width=1000 height=562></canvas>
+		<!-- SCRIPTS -->
+		<script src='../Geometry/Vector.js'></script>
+		<script src='../Geometry/Segment.js'></script>
+		<script src='../Geometry/Shape.js'></script>
+		<!-- SCRIPT pour les test (quelques fonctions provisoires récurrentes) -->
+		<script src='test.js'></script>
+		<!-- SCRIPT -->
+		<script>
+			/* Récupération des éléments du DOM */
+			var game = document.getElementById('game');
+			var ctx = game.getContext('2d');
+			
+			/* Initialisation du test */
+				/* Ici on déclare les variables de test, etc. */
+			
+			
+			/* Actions */
+			game.onmousemove = function(e)
+			{
+				/* Ici on ajoute le code à executer quand la souris bouge sur le canvas */
+			}
+			game.onmousedown = function(e)
+			{
+				/* Ici on ajoute le code à executer quand la souris entame un clique (appuie) sur le canvas */
+			}
+			game.onmouseup = function(e)
+			{
+				/* Ici on ajoute le code à executer quand la souris termine un clique (relache) sur le canvas */
+			}
+			document.onkeydown = function(e)
+			{
+				switch(e.keyCode)
+				{
+					case 90 : break; // z
+					case 83 : break; // s
+					case 81 : break; // q
+					case 68 : break; // d
+				}
+			}
+			document.onkeyup = function(e)
+			{
+				switch(e.keyCode)
+				{
+					case 90 : break; // z
+					case 83 : break; // s
+					case 81 : break; // q
+					case 68 : break; // d
+				}
+			}
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
