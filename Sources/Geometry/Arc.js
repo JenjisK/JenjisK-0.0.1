@@ -94,15 +94,8 @@ Arc.prototype.intersectSegment = function(s){ // Détermine le point d'intersect
 	
 	return contact;
 }
-<<<<<<< HEAD
 Arc.prototype.intersectPolygon = function(polygon){	// TO TEST - Détermine le point d'intersection entre l'arc THIS et le polygone polygon. Retour [k, v]
 	var firstContact = false, l = polygon.points.length, j;
-	
-=======
-Arc.prototype.intersectPolygon = function(polygon){
-	var firstContact = false, l = polygon.points.length, s, j;
-		var t = '';
->>>>>>> parent of fde703f... Préparation de Arc.js
 	for(var i = 0; i < l; i++)
 	{
 		j = (i+1)%l;
@@ -115,16 +108,9 @@ Arc.prototype.intersectPolygon = function(polygon){
 	}
 	return firstContact;
 }
-<<<<<<< HEAD
 Arc.prototype.intersectPath = function(path){		// TO TEST - Détermine le point d'intersection entre l'arc THIS et le chemin path. Retour [k, v]
 	var firstContact = false, j;
-	for(var i = 0; i < l = path.points.length-1; i++)
-=======
-Arc.prototype.intersectPath = function(path){
-	var firstContact = false, l = path.points.length, s, j;
-		var t = '';
-	for(var i = 0; i < l-1; i++)
->>>>>>> parent of fde703f... Préparation de Arc.js
+	for(var i = 0; i < path.points.length-1; i++)
 	{
 		j = i+1;
 		var contact = this.intersectSegment(new Segment(path.points[i], path.points[j]));
