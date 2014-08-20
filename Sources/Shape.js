@@ -19,7 +19,7 @@ Path.prototype = new Shape();
 function Polygon()
 {
 	this.type = "Polygon";
-	this.vertices = new Array();
+	this.points = new Array();
 }
 /* Héritage déclaré */
 Polygon.prototype = new Shape();
