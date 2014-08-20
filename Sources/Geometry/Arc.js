@@ -94,30 +94,29 @@ Arc.prototype.intersectSegment = function(s){ 		// Détermine le point d'interse
 	
 	return contact;
 }
-Arc.prototype.intersectPolygon = function(polygon){	// TO DO - Détermine le point d'intersection entre l'arc THIS et le polygone polygon. Retour [k, v]
-	var firstContact = false, l = polygon.points.length, s, j;
-		var t = '';
+Arc.prototype.intersectPolygon = function(polygon){	// TO TEST - Détermine le point d'intersection entre l'arc THIS et le polygone polygon. Retour [k, v]
+	var firstContact = false, l = polygon.points.length, j;
+	
 	for(var i = 0; i < l; i++)
 	{
 		j = (i+1)%l;
 		var contact = this.intersectSegment(new Segment(polygon.points[i], polygon.points[j]));
 		if(contact)
-		if(!firstContact || Math.abs(firstContact[0]) > Math.abs(contact[0]))
+		if(!firstContact || firstContact[0] > contact[0])
 		{
 			firstContact = [contact[0], contact[1], new Segment(polygon.points[i], polygon.points[j])];
 		}
 	}
 	return firstContact;
 }
-Arc.prototype.intersectPath = function(path){		// TO DO - Détermine le point d'intersection entre l'arc THIS et le chemin path. Retour [k, v]
-	var firstContact = false, l = path.points.length, s, j;
-		var t = '';
-	for(var i = 0; i < l-1; i++)
+Arc.prototype.intersectPath = function(path){		// TO TEST - Détermine le point d'intersection entre l'arc THIS et le chemin path. Retour [k, v]
+	var firstContact = false, j;
+	for(var i = 0; i < l = path.points.length-1; i++)
 	{
 		j = i+1;
 		var contact = this.intersectSegment(new Segment(path.points[i], path.points[j]));
 		if(contact)
-		if(!firstContact || Math.abs(firstContact[0]) > Math.abs(contact[0]))
+		if(!firstContact || firstContact[0] > contact[0])
 		{
 			firstContact = [contact[0], contact[1], new Segment(path.points[i], path.points[j])];
 		}
