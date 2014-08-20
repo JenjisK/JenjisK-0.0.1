@@ -115,15 +115,3 @@ Vector.reverse = function(u){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
