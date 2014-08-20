@@ -1,4 +1,4 @@
-/* SEGMENT - TEST */
+/* SEGMENT */ // TO TEST
 /* NOTATIONS :
 	Sauf si précisé, les noms de variables suivants seront utilisés à des fins précises :
 		i,j,l = entiers indices de tableaux / boucles for
