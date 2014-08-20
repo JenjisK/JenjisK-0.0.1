@@ -9,7 +9,8 @@
 		<script src='Geometry/Vector.js'></script>
 		<script src='Geometry/Segment.js'></script>
 		<script src='Geometry/Shape.js'></script>
-		<script src='test.js'></script>
+		<script src='Tests/test.js'></script>
+		<div id='center'></div><div id='extrem'></div>
 		<script>
 			var game = document.getElementById('game');
 			var ctx = game.getContext('2d');
@@ -24,18 +25,18 @@
 			var segmentIntersection = new Segment(new Vector(0,0), new Vector(0,0));
 				ctx.drawSegment(segmentIntersection);
 			
-			
 			/* Actions à produire lors des différentes actions sur le canvas */
 			game.onmousemove = function(e)
 			{
 				// Quand on bouge, on déplace la fin du segment
 				ctx.clear();
-				segment.v = z_object_click_position(game, e);
 				ctx.drawCircle(circle);
-				ctx.drawSegment(segment);
+				segment.v = z_object_click_position(game, e);
+					ctx.drawSegment(segment);
 				var intersection = segment.intersectCircle(circle);
-				if(intersection)
-				console.log(intersection);
+				segmentIntersection.v = (intersection)?intersection[1]:new Vector(0,0);
+					ctx.drawSegment(segmentIntersection);
+				console.log(segmentIntersection);
 			}
 			game.onmousedown = function(e)
 			{
