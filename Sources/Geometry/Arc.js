@@ -16,12 +16,12 @@ function Arc(center, start, alpha)
 	this.alpha = alpha || 0;
 	this.beta = (new Vector(1,0)).angle(this.start);
 }
-Arc.prototype.setStart = function(newStart){
+Arc.prototype.setStart = function(newStart){		// Défini proprement le nouveau point de départ de l'arc THIS
 	this.start = newStart || new Vector(1,0);
 	this.radius = this.start.norm();
 	this.beta = (new Vector(1,0)).angle(this.start);
 }
-Arc.prototype.intersectSegment = function(s){ // Détermine le point d'intersection entre l'arc THIS et le segment s. Retour : [k, v]
+Arc.prototype.intersectSegment = function(s){ 		// Détermine le point d'intersection entre l'arc THIS et le segment s. Retour : [k, v]
 	var contact = null;
 	
 	// Enregistrement des points de contacts
@@ -94,7 +94,7 @@ Arc.prototype.intersectSegment = function(s){ // Détermine le point d'intersect
 	
 	return contact;
 }
-Arc.prototype.intersectPolygon = function(polygon){
+Arc.prototype.intersectPolygon = function(polygon){	// TO DO - Détermine le point d'intersection entre l'arc THIS et le polygone polygon. Retour [k, v]
 	var firstContact = false, l = polygon.points.length, s, j;
 		var t = '';
 	for(var i = 0; i < l; i++)
@@ -109,7 +109,7 @@ Arc.prototype.intersectPolygon = function(polygon){
 	}
 	return firstContact;
 }
-Arc.prototype.intersectPath = function(path){
+Arc.prototype.intersectPath = function(path){		// TO DO - Détermine le point d'intersection entre l'arc THIS et le chemin path. Retour [k, v]
 	var firstContact = false, l = path.points.length, s, j;
 		var t = '';
 	for(var i = 0; i < l-1; i++)
@@ -124,7 +124,9 @@ Arc.prototype.intersectPath = function(path){
 	}
 	return firstContact;
 }
-Arc.prototype.intersectCircle = function(circle){
+Arc.prototype.intersectCircle = function(circle){	// TO DO - Détermine le point d'intersection entre l'arc THIS et le cercle circle. Retour [k, v]
+	/* ICI c'est n'importe quoi et l'idée de Florian pour segment.intersectCircle pourrait être traduite */
+	
 	var contacts = new Array();
 	
 	if(this.center.y == circle.center.y)
