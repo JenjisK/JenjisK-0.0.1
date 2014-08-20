@@ -16,12 +16,12 @@ function Arc(center, start, alpha)
 	this.alpha = alpha || 0;
 	this.beta = (new Vector(1,0)).angle(this.start);
 }
-Arc.prototype.setStart = function(newStart){		// Défini proprement le nouveau point de départ de l'arc THIS
+Arc.prototype.setStart = function(newStart){
 	this.start = newStart || new Vector(1,0);
 	this.radius = this.start.norm();
 	this.beta = (new Vector(1,0)).angle(this.start);
 }
-Arc.prototype.intersectSegment = function(s){ 		// Détermine le point d'intersection entre l'arc THIS et le segment s. Retour : [k, v]
+Arc.prototype.intersectSegment = function(s){ // Détermine le point d'intersection entre l'arc THIS et le segment s. Retour : [k, v]
 	var contact = null;
 	
 	// Enregistrement des points de contacts
@@ -94,9 +94,15 @@ Arc.prototype.intersectSegment = function(s){ 		// Détermine le point d'interse
 	
 	return contact;
 }
+<<<<<<< HEAD
 Arc.prototype.intersectPolygon = function(polygon){	// TO TEST - Détermine le point d'intersection entre l'arc THIS et le polygone polygon. Retour [k, v]
 	var firstContact = false, l = polygon.points.length, j;
 	
+=======
+Arc.prototype.intersectPolygon = function(polygon){
+	var firstContact = false, l = polygon.points.length, s, j;
+		var t = '';
+>>>>>>> parent of fde703f... Préparation de Arc.js
 	for(var i = 0; i < l; i++)
 	{
 		j = (i+1)%l;
@@ -109,9 +115,16 @@ Arc.prototype.intersectPolygon = function(polygon){	// TO TEST - Détermine le p
 	}
 	return firstContact;
 }
+<<<<<<< HEAD
 Arc.prototype.intersectPath = function(path){		// TO TEST - Détermine le point d'intersection entre l'arc THIS et le chemin path. Retour [k, v]
 	var firstContact = false, j;
 	for(var i = 0; i < l = path.points.length-1; i++)
+=======
+Arc.prototype.intersectPath = function(path){
+	var firstContact = false, l = path.points.length, s, j;
+		var t = '';
+	for(var i = 0; i < l-1; i++)
+>>>>>>> parent of fde703f... Préparation de Arc.js
 	{
 		j = i+1;
 		var contact = this.intersectSegment(new Segment(path.points[i], path.points[j]));
@@ -123,9 +136,7 @@ Arc.prototype.intersectPath = function(path){		// TO TEST - Détermine le point 
 	}
 	return firstContact;
 }
-Arc.prototype.intersectCircle = function(circle){	// TO DO - Détermine le point d'intersection entre l'arc THIS et le cercle circle. Retour [k, v]
-	/* ICI c'est n'importe quoi et l'idée de Florian pour segment.intersectCircle pourrait être traduite */
-	
+Arc.prototype.intersectCircle = function(circle){
 	var contacts = new Array();
 	
 	if(this.center.y == circle.center.y)
