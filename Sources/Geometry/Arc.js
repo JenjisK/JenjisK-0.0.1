@@ -80,11 +80,14 @@ Arc.prototype.intersectSegment = function(s){ // Détermine le point d'intersect
 	}
 	else if (delta == 0){
 		var t1 = -B/(2*A);
-		if (t1 >= 0 && t1 <= 1 &&){
-			var u = Vector.plus(s.u, Vector.multiply(w, t1))
-			var angleU = this.start.angle(Vector.minus(u, this.center));
-			angleU = (this.alpha > 0 && angleU < 0)?angleU+2*Math.Pi:(this.alpha < 0 && angleU > 0)?angleU-2*Math.Pi:angleU;
-			var ratioU = (this.alpha == 0)?0:angleU/this.alpha;
+		
+		/* Diffère ici de Segment.intersectCircle car les angles sont à prendre en compte */
+		var u = Vector.plus(s.u, Vector.multiply(w, t1))
+		var angleU = this.start.angle(Vector.minus(u, this.center));
+		angleU = (this.alpha > 0 && angleU < 0)?angleU+2*Math.Pi:(this.alpha < 0 && angleU > 0)?angleU-2*Math.Pi:angleU;
+		
+		var ratioU = (this.alpha == 0)?0:angleU/this.alpha;
+		if (t1 >= 0 && t1 <= 1 && ((this.alpha >= 0 && angleU <= this.alpha) || (this.alpha <= 0 && angleU >= this.alpha))){
 			contact = [ratioU, u];
 		}
 	}
