@@ -42,6 +42,19 @@ CanvasRenderingContext2D.prototype.drawCircle = function(circle)
 	this.strokeStyle = 'rgb(0,0,0)';
 	this.stroke();
 }
+CanvasRenderingContext2D.prototype.drawArc = function(arc)
+{
+	// On crée le cercle
+	this.beginPath();
+	if(typeof arc.center != "undefined")
+	{
+		this.arc(arc.center.x, arc.center.y, arc.radius, arc.beta, arc.beta+arc.alpha, arc.alpha<0);
+	}
+	
+	// On affiche le cercle
+	this.strokeStyle = 'rgb(0,0,0)';
+	this.stroke();
+}
 CanvasRenderingContext2D.prototype.drawSegment = function(segment)
 {
 	// On crée le segment
