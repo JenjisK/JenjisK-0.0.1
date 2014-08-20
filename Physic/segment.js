@@ -139,67 +139,53 @@ Segment.prototype.intersectCircle = function(circle){
 	
 	// Enregistrement des points de contacts
 	var w = this.v.minus(this.u);
-	if(approx(w.x) == 0)
-	{
-		var bprime = circle.center.y;
-		var delta = bprime*bprime-(circle.center.y*circle.center.y+(this.u.x-circle.center.x)*(this.u.x-circle.center.x)-circle.radius*circle.radius);
+	
+	/* On passe en représentation paramétrique,
+		On a donc notre segment:	x = u.x + t*dx avec dx = v.x - u.x
+									y = u.y + t*dy avec dy = v.y - u.y
+		Equation d'un cercle: 		(x-xc)^2 + (y-yc)^2 = r^2
 		
-		if(delta > 0)
-		{
-			var sqrt_delta = Math.sqrt(delta);
-			
-			var w1 = new Vector(this.u.x, (bprime+sqrt_delta));
-			var w2 = new Vector(this.u.x, bprime-sqrt_delta);
-			
-			if(this.containVectorSoft(w1))
-			{
-				contacts.push([Math.sqrt(this.u.minus(w1).norm2()/this.u.minus(this.v).norm2()), w1]);
+		Substitution:				(u.x + t*dx - xc)^2 + (u.y + t*dy - yc)^2 = r^2
+								<=>	(dx^2 + dy^2)*t^2 + 2*((cx*dx) + (cy*dy))*t + (cx^2 + cy^2 - r^2) = 0 avec cx = u.x - xc et cy = u.y - xy
+								
+		On résout, et on trouve 0, 1 ou 2 valeur(s) de t. Comme on est sur un segment, t doit être compris entre 0 et 1. Sinon, on sort du segment.
+	*/
+	
+	var dx = this.v.x - this.u.x;
+	var dy = this.v.y - this.u.y;
+	var cx = this.u.x - circle.center.x;
+	var cy = this.u.y - circle.center.y;
+	
+	var A = dx*dx + dy*dy;
+	var B = 2*(dx*cx + dy*cy);
+	var C = cx*cx + cy*cy - circle.radius*circle.radius;
+	
+	var delta = B*B - 4*A*C;
+	
+	if (delta > 0) {
+		var t1 = (-B + sqrt(delta))/(2*A);
+		var t2 = (-B - sqrt(delta))/(2*A);
+		
+		if (t1 < t2) {
+			if (t1 >= 0 && t1 <= 1) {		
+				contact.push(t1, new Vector(this.u.x + t1*dx, this.u.y + t1.dy));
+			} else if (t2 >= 0 && t2 <= 1) {
+				contact.push(t2, new Vector(this.u.x + t2*dx, this.u.y + t2.dy));
 			}
-			if(this.containVectorSoft(w2))
-			{
-				contacts.push([Math.sqrt(this.u.minus(w2).norm2()/this.u.minus(this.v).norm2()), w2]);
+		} else {
+			if (t2 >= 0 && t2 <= 1) {		
+				contact.push(t2, new Vector(this.u.x + t2*dx, this.u.y + t2.dy));
+			} else if (t1 >= 0 && t1 <= 1) {
+				contact.push(t1, new Vector(this.u.x + t1*dx, this.u.y + t1.dy));
 			}
 		}
-	}
-	else
-	{
-		var a1 = w.y/w.x;
-		var b1 = this.u.y-a1*this.u.x;
-		
-		var a = 1+a1*a1;
-		var b = 2*(a1*(b1-circle.center.y)-circle.center.x);
-		var delta = b*b-4*a*(circle.center.x*circle.center.x+(b1-circle.center.y)*(b1-circle.center.y)-circle.radius*circle.radius);
-		
-		if(delta > 0)
-		{
-			var sqrt_delta = Math.sqrt(delta);
-			var x1 = -(b+sqrt_delta)/(2*a);
-			var x2 = (-b+sqrt_delta)/(2*a);
-			
-			var w1 = new Vector(x1, a1*x1+b1);
-			var w2 = new Vector(x2, a1*x2+b1);
-			
-			if(this.containVectorSoft(w1))
-			{
-				contacts.push([Math.sqrt(this.u.minus(w1).norm2()/this.u.minus(this.v).norm2()), w1]);
-			}
-			if(this.containVectorSoft(w2))
-			{
-				contacts.push([Math.sqrt(this.u.minus(w2).norm2()/this.u.minus(this.v).norm2()), w2]);
-			}
+	} else if (delta == 0) {
+		var t1 = -B/(2*A);
+		if (t1 >= 0 && t1 <= 1) {
+			contact.push(t1, new Vector(this.u.x + t1*dx, this.u.y + t1.dy));
 		}
 	}
 	
-	var contact = false;
-	var ratio = 1;
-	for(var k = 0; k < contacts.length; k++)
-	{
-		if(ratio > contacts[k][0])
-		{
-			ratio = contacts[k][0];
-			contact = contacts[k];
-		}
-	}
 	return contact;
 }
 Segment.prototype.apsidesCircle = function(circle){
