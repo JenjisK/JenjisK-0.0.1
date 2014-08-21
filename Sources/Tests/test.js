@@ -66,6 +66,10 @@ CanvasRenderingContext2D.prototype.drawSegment = function(segment)
 	this.strokeStyle = 'rgb(0,0,0)';
 	this.stroke();
 }
+CanvasRenderingContext2D.prototype.drawVector = function(vector)
+{
+	this.drawSegment(new Segment(new Vector(0,0), vector));
+}
 CanvasRenderingContext2D.prototype.clear = function()
 {
 	this.clearRect(0,0,1000, 1000);
