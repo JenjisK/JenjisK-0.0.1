@@ -32,7 +32,7 @@
 				c.center = new Vector(270,290);
 				c.radius = 50;
 				if(a.intersectCircle(c))
-					ctx.drawSegment(new Segment(new Vector(20,20), a.intersectCircle(c)));
+					ctx.drawSegment(new Segment(new Vector(20,20), a.intersectCircle(c)[1]));
 				ctx.drawArc(a);
 				ctx.drawCircle(c);
 			
@@ -43,7 +43,7 @@
 				c.center = z_object_click_position(game, e);
 				ctx.clear();
 				if(a.intersectCircle(c))
-					ctx.drawSegment(new Segment(new Vector(20,20), a.intersectCircle(c)));
+					ctx.drawSegment(new Segment(new Vector(20,20), a.intersectCircle(c)[1]));
 				ctx.drawArc(a);
 				ctx.drawCircle(c);
 			}
