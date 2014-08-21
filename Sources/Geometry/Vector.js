@@ -118,5 +118,12 @@ Vector.rotate = function(u, a, b){
 Vector.reverse = function(u){
 	return u.duplicate().reverse();
 }
+Vector.setNorm = function(u, newNorm){
+	return u.duplicate().setNorm(newNorm);
+}
+Vector.normal = function(u){
+	return u.duplicate().normal();
+}
+
 
 
