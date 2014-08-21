@@ -21,7 +21,21 @@ Arc.prototype.setStart = function(newStart){
 	this.radius = this.start.norm();
 	this.beta = (new Vector(1,0)).angle(this.start);
 }
-Arc.prototype.intersectSegment = function(s){ // Détermine le point d'intersection entre l'arc THIS et le segment s. Retour : [k, v]
+Arc.prototype.containDirection = function(u){			// TO TEST - Détermine si la direction u est intercepté par l'arc THIS
+	var alpha = Vector.angle(this.start, u);
+	if(this.alpha >= 0){
+		if((alpha < 0 && alpha+2*Math.Pi < this.alpha) || (alpha >= 0 && alpha < this.alpha))
+			return alpha;
+		else
+			return false;
+	}else{
+		if((alpha < 0 && alpha > this.alpha) || (alpha >= 0 && alpha-2*Math.pi > this.alpha))
+			return alpha;
+		else
+			return false;
+	}
+}
+Arc.prototype.intersectSegment = function(s){ 			// Détermine le point d'intersection entre l'arc THIS et le segment s. Retour : [k, v]
 	var contact = null;
 	
 	// Enregistrement des points de contacts
@@ -94,7 +108,7 @@ Arc.prototype.intersectSegment = function(s){ // Détermine le point d'intersect
 	
 	return contact;
 }
-Arc.prototype.intersectPolygon = function(polygon){	// TO TEST - Détermine le point d'intersection entre l'arc THIS et le polygone polygon. Retour [k, v]
+Arc.prototype.intersectPolygon = function(polygon){		// TO TEST - Détermine le point d'intersection entre l'arc THIS et le polygone polygon. Retour [k, v]
 	var firstContact = false, l = polygon.points.length, j;
 	for(var i = 0; i < l; i++)
 	{
@@ -108,7 +122,7 @@ Arc.prototype.intersectPolygon = function(polygon){	// TO TEST - Détermine le p
 	}
 	return firstContact;
 }
-Arc.prototype.intersectPath = function(path){		// TO TEST - Détermine le point d'intersection entre l'arc THIS et le chemin path. Retour [k, v]
+Arc.prototype.intersectPath = function(path){			// TO TEST - Détermine le point d'intersection entre l'arc THIS et le chemin path. Retour [k, v]
 	var firstContact = false, j;
 	for(var i = 0; i < path.points.length-1; i++)
 	{
@@ -122,54 +136,45 @@ Arc.prototype.intersectPath = function(path){		// TO TEST - Détermine le point 
 	}
 	return firstContact;
 }
-Arc.prototype.intersectCircle = function(circle){
+Arc.prototype.intersectCircle = function(circle){		// Détermine le point d'intersection entre l'arc THIS et le cercle circle. Retour [k, v]
 	var contacts = new Array();
 	
-	if(this.center.y == circle.center.y)
-	{
+	var w = Vector.minus(circle.center, this.center);
+	var d = w.norm();
 	
+	if(d != 0 && d < this.radius + circle.radius)
+	{
+		var x = (d*d+this.radius*this.radius-circle.radius*circle.radius)/(2*d);
+		var y = Math.sqrt(this.radius*this.radius-x*x);
+		var u = Vector.normalize(w);
+		var v1 = (Vector.normal(u)).multiply(y);
+		var v2 = Vector.reverse(v1);
+		u.setNorm(x);
+		
+		var u1 = Vector.plus(u,v1);
+		var u2 = Vector.plus(u,v2);
+		var a1 = this.containDirection(u1);
+		var a2 = this.containDirection(u2);
+		if(a1){
+			if(a2){
+				if(a1>a2){
+					return [a2, u2.plus(this.center)];
+				}else{
+					return [a1, u1.plus(this.center)];
+				}
+			}else{
+				return [a1, u1.plus(this.center)];
+			}
+		}else{
+			if(a2){
+				return [a2, u2.plus(this.center)];
+			}else{
+				return false;
+			}
+		}
 	}
 	else
 	{
-		var N = (this.radius*this.radius-circle.radius*circle.radius-this.center.x*this.center.x+circle.center.x*circle.center.x-this.center.y*this.center.y+circle.center.y*circle.center.y)/(2*(circle.center.y-this.center.y));
-		var P = (circle.center.x-this.center.x)/(circle.center.y-this.center.y);
-		
-		var a = P*P+1;
-		var b = 2*(circle.center.y*P-N*P-circle.center.x);
-		var c = circle.center.x*circle.center.x+circle.center.y*circle.center.y+N*N-circle.radius*circle.radius-2*circle.center.y*N;
-		var delta = b*b-4*a*c;
-		
-		if(delta > 0)
-		{
-			var sqrt_delta = Math.sqrt(delta);
-			var x1 = -(b+sqrt_delta)/(2*a);
-			var x2 = (-b+sqrt_delta)/(2*a);
-			
-			var w1 = new Vector(x1, N-x1*P);
-			var w2 = new Vector(x2, N-x2*P);
-			var beta1 = w1.minus(this.center).angleWith(this.start);
-			var beta2 = w2.minus(this.center).angleWith(this.start);
-			
-			if(Math.abs(this.alpha) > Math.abs(beta1) && this.alpha*beta1 > 0)
-			{
-				contacts.push([beta1, w1]);
-			}
-			if(Math.abs(this.alpha) > Math.abs(beta2) && this.alpha*beta2 > 0)
-			{
-				contacts.push([beta2, w2]);
-			}
-		}
+		return false;
 	}
-	
-	var contact = false;
-	var gamma = this.alpha;
-	for(var k = 0; k < contacts.length; k++)
-	{
-		if(Math.abs(gamma) > Math.abs(contacts[k][0]))
-		{
-			gamma = contacts[k][0];
-			contact = contacts[k];
-		}
-	}
-	return contact;
 }
