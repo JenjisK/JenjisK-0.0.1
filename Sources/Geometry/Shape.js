@@ -32,7 +32,40 @@ function Circle()
 /* Héritage déclaré */
 Circle.prototype = new Shape();
 
-Circle.prototype.intersectShape = function(shape) {
+Shape.prototype.intersectShape = function(shape){
+	switch(this.type)
+	{
+		case 'polygon' :
+			switch(shape.type)
+			{
+				case 'polygon' : return Polygon.intersectPolygon(this, shape); break;
+				case 'path' : return Polygon.intersectPath(this, shape); break;
+				case 'circle' : return Polygon.intersectCircle(this, shape); break;
+				default : console.group('Shape.intersectShape');console.error('Type Of Shape Undefined');console.log(shape);console.groupEnd('Shape.intersectShape');break;
+			}
+			break;
+		case 'path' :
+			switch(shape.type)
+			{
+				case 'polygon' : return Polygon.intersectPath(shape, this); break;
+				case 'path' : return Path.intersectPath(this, shape); break;
+				case 'circle' : return Path.intersectCircle(this, shape); break;
+				default : console.group('Shape.intersectShape');console.error('Type Of Shape Undefined');console.log(shape);console.groupEnd('Shape.intersectShape');break;
+			}
+			break;
+		case 'circle' :
+			switch(shape.type)
+			{
+				case 'polygon' : return Polygon.intersectCircle(shape, this); break;
+				case 'path' : return Path.intersectCircle(shape, this); break;
+				case 'circle' : return Circle.intersectCircle(this, shape); break;
+				default : console.group('Shape.intersectShape');console.error('Type Of Shape Undefined');console.log(shape);console.groupEnd('Shape.intersectShape');break;
+			}
+			break;
+		default : console.group('Shape.intersectShape');console.error('Type Of Shape Undefined');console.log(this);console.groupEnd('Shape.intersectShape');break;
+	}
+}
+Circle.prototype.intersectShape = function(shape){
 	if (shape.type == "Path" || shape.type == "Polygon") {	
 		for (var i = 0; i < shape.vertices.length-1; i++) {
 			var v1 = shape.vertices[i];
