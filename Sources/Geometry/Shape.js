@@ -4,7 +4,7 @@
 function Shape()
 {
 	// Type - Path (ouvert) / Polygon (fermé) / Circle
-	this.type = "Polygon";
+	this.type = "Shape";
 	// Points
 }
 /* Path est directement hérité de Shape */
@@ -15,14 +15,13 @@ function Path()
 }
 /* Héritage déclaré */
 Path.prototype = new Shape();
-/* Polygon est directement hérité de Shape */
+/* Polygon est directement hérité de Path */
 function Polygon()
 {
 	this.type = "Polygon";
-	this.points = new Array();
 }
 /* Héritage déclaré */
-Polygon.prototype = new Shape();
+Polygon.prototype = new Path();
 /* Circle est directement hérité de Shape */
 function Circle()
 {
@@ -31,4 +30,49 @@ function Circle()
 	this.radius = 0;
 }
 /* Héritage déclaré */
-Polygon.prototype = new Shape();
+Circle.prototype = new Shape();
+
+Circle.prototype.intersectShape = function(shape) {
+	if (shape.type == "Path" || shape.type == "Polygon") {	
+		for (var i = 0; i < shape.vertices.length-1; i++) {
+			var v1 = shape.vertices[i];
+			var v2 = shape.vertices[i+1];
+			
+			var tmpSegment = new Segment(v1, v2);
+			
+			if (tmpSegment.intersectCircle(this) != null) {
+				return true;
+			}
+		}
+		return false;
+	} else if (shape.type == "Circle") {
+		if ((this.center - shape.center).norm() < this.radius + shape.radius) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
+Path.prototype.intersectShape = function(shape) {
+	if (shape.type == "Path" || shape.type == "Polygon") {	
+		for (var i = 0; i < shape.vertices.length-1; i++) {
+			var v1 = shape.vertices[i];
+			var v2 = shape.vertices[i+1];
+			var tmpSegment = new Segment(v1, v2);
+			
+			for (var j = 0; j < this.vertices.length-1; j++) {
+				var v3 = this.vertices[j];
+				var v4 = this.vertices[j+1];
+				var tmpSegment2 = new Segment(v3, v4);
+				
+				if (tmpSegment.intersectSegment(tmpSegment2) != null) {
+					return true;
+				}
+			}			
+		}
+		return false;
+	} else if (shape.type == "Circle") {
+		return shape.intersectShape(this);
+	}
+}
