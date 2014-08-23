@@ -25,15 +25,18 @@ function Polygon()
 /* Héritage déclaré */
 Polygon.prototype = new Shape();
 
-Polygon.prototype.createSquare = function(x, y, l) {
-	while(this.vertices.length > 0) {
+Polygon.prototype.createRectangle = function(x, y, w, h) {
+	if( typeof(h) == 'undefined' ){
+        h = w;
+    }
+
+	while (this.vertices.length > 0) {
 		this.vertices.pop();
 	}
 	this.vertices.push(new Vector(x, y));
-	this.vertices.push(new Vector(x+l, y));
-	this.vertices.push(new Vector(x+l, y+l));
-	this.vertices.push(new Vector(x, y+l));
-	
+	this.vertices.push(new Vector(x+w, y));
+	this.vertices.push(new Vector(x+w, y+h));
+	this.vertices.push(new Vector(x, y+h));
 }
 
 /* Circle est directement hérité de Shape */
