@@ -1,0 +1,60 @@
+<!-- 
+	FONCTIONS TESTEES :
+		*	shape.intersectShape
+-->
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<style>#game{ border : 1px solid grey; position : absolute; top : 0px; left : 0px;}</style>
+	</head>
+	<body>
+		<!-- CANVAS -->
+		<canvas id='game' width=1000 height=562></canvas>
+		<!-- SCRIPTS -->
+		<script src='../Geometry/Vector.js'></script>
+		<script src='../Geometry/Segment.js'></script>
+		<script src='../Geometry/Arc.js'></script>
+		<script src='../Geometry/Shape.js'></script>
+		<!-- SCRIPT pour les test (quelques fonctions provisoires récurrentes) -->
+		<script src='test.js'></script>
+		<!-- SCRIPT -->
+		<script>
+			/* Récupération des éléments du DOM */
+			var game = document.getElementById('game');
+			var ctx = game.getContext('2d');
+			
+			/* Initialisation du test */
+			var circle = new Circle(500, 200, 125);
+			ctx.drawCircle(circle);
+			
+			var square = new Polygon();
+			square.createSquare(45, 45, 75);
+			ctx.drawPolygon(square);
+						
+			/* Actions */
+			game.onmousemove = function(e)
+			{
+				x = e.clientX;
+				y = e.clientY;
+				square.createSquare(x, y, 75);
+				ctx.clear();
+				ctx.drawCircle(circle);
+				ctx.drawPolygon(square);
+				
+				if (circle.intersectShape(square)) {
+					console.log("intersection found");
+				} else {
+				}
+			}
+		</script>
+	</body>
+</html>
+
+
+
+
+
+
