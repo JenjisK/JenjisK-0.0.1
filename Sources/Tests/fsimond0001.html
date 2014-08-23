@@ -31,20 +31,35 @@
 			ctx.drawCircle(circle);
 			
 			var square = new Polygon();
-						
+			
+			var myCircle = new Circle(0, 0, 75);
+					
+			var c = 0;
+					
 			/* Actions */
 			game.onmousemove = function(e)
 			{
 				x = e.clientX;
 				y = e.clientY;
-				square.createRectangle(x, y, 75);
+				if (c == 0) {
+					square.createRectangle(x, y, 75);
+				} else {
+					myCircle.center.x = x;
+					myCircle.center.y = y;					
+				}
 				ctx.clear();
 				ctx.drawCircle(circle);
 				ctx.drawPolygon(square);
+				ctx.drawCircle(myCircle);
 				
-				if (circle.intersectShape(square)) {
+				if (circle.intersectShape(square) || circle.intersectShape(myCircle)) {
 					console.log("intersection found");
 				}
+			}
+			
+			game.onmousedown = function(e)
+			{
+				c = (c+1)%2;
 			}
 		</script>
 	</body>
