@@ -74,3 +74,11 @@ CanvasRenderingContext2D.prototype.clear = function()
 {
 	this.clearRect(0,0,1000, 1000);
 }
+
+CanvasRenderingContext2D.prototype.drawPolygon = function(polygon)
+{
+	for (var i = 0; i < polygon.vertices.length-1; i++) {
+		this.drawSegment(new Segment(polygon.vertices[i], polygon.vertices[i+1]));
+	}
+	this.drawSegment(new Segment(polygon.vertices[polygon.vertices.length-1], polygon.vertices[0]));
+}
