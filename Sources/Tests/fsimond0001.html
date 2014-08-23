@@ -31,22 +31,19 @@
 			ctx.drawCircle(circle);
 			
 			var square = new Polygon();
-			square.createSquare(45, 45, 75);
-			ctx.drawPolygon(square);
 						
 			/* Actions */
 			game.onmousemove = function(e)
 			{
 				x = e.clientX;
 				y = e.clientY;
-				square.createSquare(x, y, 75);
+				square.createRectangle(x, y, 75);
 				ctx.clear();
 				ctx.drawCircle(circle);
 				ctx.drawPolygon(square);
 				
 				if (circle.intersectShape(square)) {
 					console.log("intersection found");
-				} else {
 				}
 			}
 		</script>
