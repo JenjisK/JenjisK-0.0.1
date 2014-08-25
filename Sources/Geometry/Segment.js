@@ -62,21 +62,30 @@ Segment.prototype.intersectSegmentInternal = function(s){	// Détermine le point
 		return this.intersectSegment(s);
 	}
 }
-Segment.prototype.intersectShape = function(shape){			// Détermine le point d'intersection de THIS avec la forme shape
-	switch(shape)
+Segment.prototype.intersectCollider = function(collider){			// Détermine le point d'intersection de THIS avec la forme shape
+	if(collider instanceof Polygon)
 	{
-		case "polygon" : return this.intersectPolygon(shape); break;
-		case "path" : return this.intersectPath(shape); break;
-		case "circle" : return this.intersectCircle(shape); break;
-		default : console.warn("segment.intersectShape used on undefined-type shape."); return false; break;
+		return this.intersectPolygon(collider);
+	}
+	else if(collider instanceof Edge)
+	{
+		return this.intersectEdge(collider);
+	}
+	else if(collider instanceof Circle)
+	{
+		return this.intersectCircle(collider);
+	}
+	else
+	{
+		return false;
 	}
 }
-Segment.prototype.intersectPolygon = function(polygon){		// Détermine le point d'intersection de THIS avec le polygone polygon
+Segment.prototype.intersectPolygonCollider = function(polygon){		// Détermine le point d'intersection de THIS avec le polygone polygon
 	/* firstContact enregistrera le contact le plus immédiat parmi ceux trouvés, nombreOfPoints conserve
 		le nombre de vertices ou "vertices" formant le polygone polygon */
 	var firstContact = false, nombreOfPoints = polygon.vertices.length;
 	/* La boucle for (sur i) parcours les vertices de proche en proche 
-		La différence avec segment.intersecPath est qu'ici la dernière valeur de i est nombreOfPoints-1
+		La différence avec segment.intersecEdge est qu'ici la dernière valeur de i est nombreOfPoints-1
 	*/
 	for(var i = 0, j; i < nombreOfPoints; i++)
 	{
@@ -96,22 +105,22 @@ Segment.prototype.intersectPolygon = function(polygon){		// Détermine le point 
 	// On retourne firstContact qui contient alors le meilleur contact
 	return firstContact;
 }
-Segment.prototype.intersectPath = function(path){			// Détermine le point d'intersection de THIS avec le chemin path
+Segment.prototype.intersectEdgeCollider = function(edge){			// Détermine le point d'intersection de THIS avec le chemin edge
 	// Pas de variable nombreOfPoints car il n'est utilisé qu'une fois
 	var firstContact = false;
-	// Pas de variable j ici car pas besoin de faire un %modulo% puisque i s'arrête à path.vertices.length-2
-	for(var i = 0; i < path.vertices.length-1; i++)
+	// Pas de variable j ici car pas besoin de faire un %modulo% puisque i s'arrête à edge.vertices.length-2
+	for(var i = 0; i < edge.vertices.length-1; i++)
 	{
-		var contact = this.intersectSegment(new Segment(path.vertices[i], path.vertices[i+1]));
+		var contact = this.intersectSegment(new Segment(edge.vertices[i], edge.vertices[i+1]));
 		if(contact)
 		if(!firstContact || firstContact[0] > contact[0])
 		{
-			firstContact = [contact[0], contact[1], new Segment(path.vertices[i], path.vertices[i+1])];
+			firstContact = [contact[0], contact[1], new Segment(edge.vertices[i], edge.vertices[i+1])];
 		}
 	}
 	return firstContact;
 }
-Segment.prototype.intersectCircle = function(circle){		// Détermine le point d'intersection de THIS avec le cercle circle
+Segment.prototype.intersectCircleCollider = function(circle){		// Détermine le point d'intersection de THIS avec le cercle circle
 	var contact = null;
 	
 	// Enregistrement des vertices de contacts
@@ -130,8 +139,8 @@ Segment.prototype.intersectCircle = function(circle){		// Détermine le point d'
 	
 	var dx = w.x;
 	var dy = w.y;
-	var cx = this.u.x - circle.center.x;
-	var cy = this.u.y - circle.center.y;
+	var cx = this.u.x - circle.position.x;
+	var cy = this.u.y - circle.position.y;
 	
 	var A = dx*dx + dy*dy;
 	var B = dx*cx + dy*cy;
@@ -169,7 +178,7 @@ Segment.prototype.intersectCircle = function(circle){		// Détermine le point d'
 }
 Segment.prototype.apsidesCircle = function(circle){			// Détermine les vertices de circle en lesquels THIS est tangeant
 	var n = this.v.minus(this.u).normal().setNorm(circle.radius);
-	return [circle.center.plus(n), circle.center.plus(n.reverse())];
+	return [circle.position.plus(n), circle.position.plus(n.reverse())];
 }
 
 

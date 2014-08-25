@@ -33,9 +33,9 @@ CanvasRenderingContext2D.prototype.drawCircle = function(circle)
 {
 	// On crée le cercle
 	this.beginPath();
-	if(typeof circle.center != "undefined")
+	if(circle instanceof CircleCollider)
 	{
-		this.arc(circle.center.x, circle.center.y, circle.radius, 0, 2 * Math.PI, false);
+		this.arc(circle.position.x, circle.position.y, circle.radius, 0, 2 * Math.PI, false);
 	}
 	
 	// On affiche le cercle
