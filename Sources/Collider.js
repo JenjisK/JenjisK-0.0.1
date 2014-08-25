@@ -1,21 +1,72 @@
-/* 
-
+/*	Collider
 */
-function Collider()
+
+function Collider(position, rotation)
 {
-	/* IDENTITY OF COLLIDER */
-		// Layer
-		this.layer = null;
 	/* TRANSFORM OF COLLIDER */
-		// Position x
-		this.x = 0;
-		// Position y
-		this.y = 0;
-		// Rotation z
-		this.z = 0;
+		this.layer = null;
+		this.position = position || new Vector(0,0)
+		this.rotation = rotation || 0;
+		this.radius = 0;
+		
 	/* PROPERTIES OF COLLIDER */
-		// Is Trigger (précise que le Collider est en fait un Trigger (= zone de déclenchement))
 		this.isTrigger = false;
-		// Shape - la forme du collider, c'est l'élément essentiel pour le moteur physique
-		this.shape = false;
 }
+
+Collider.prototype.intersectCollider = function(collider){
+	if(Vector.minus(this.position, collider.position).norm() < this.radius + collider.radius)
+	{
+		if(collider instanceof Polygon)
+		{
+			return this.intersectPolygon(collider);
+		}
+		else if(collider instanceof Edge)
+		{
+			return this.intersectEdge(collider);
+		}
+		else if(collider instanceof Circle)
+		{
+			return this.intersectCircle(collider);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+Collider.prototype.moveIntersectCollider = function(collider, move){
+	if(Vector.minus(this.position, collider.position).norm() < this.radius + collider.radius)
+	{
+		if(collider instanceof Polygon)
+		{
+			return this.moveIntersectPolygon(collider, move);
+		}
+		else if(collider instanceof Edge)
+		{
+			return this.moveIntersectEdge(collider, move);
+		}
+		else if(collider instanceof Circle)
+		{
+			return this.moveIntersectCircle(collider, move);
+		}
+		else
+		{
+			return false;
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+
+
+
+
