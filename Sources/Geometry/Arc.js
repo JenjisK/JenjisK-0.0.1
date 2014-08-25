@@ -122,16 +122,16 @@ Arc.prototype.intersectPolygon = function(polygon){		// TO TEST - Détermine le 
 	}
 	return firstContact;
 }
-Arc.prototype.intersectPath = function(path){			// TO TEST - Détermine le point d'intersection entre l'arc THIS et le chemin path. Retour [k, v]
+Arc.prototype.intersectEdge = function(edge){			// TO TEST - Détermine le point d'intersection entre l'arc THIS et le chemin edge. Retour [k, v]
 	var firstContact = false, j;
-	for(var i = 0; i < path.vertices.length-1; i++)
+	for(var i = 0; i < edge.vertices.length-1; i++)
 	{
 		j = i+1;
-		var contact = this.intersectSegment(new Segment(path.vertices[i], path.vertices[j]));
+		var contact = this.intersectSegment(new Segment(edge.vertices[i], edge.vertices[j]));
 		if(contact)
 		if(!firstContact || firstContact[0] > contact[0])
 		{
-			firstContact = [contact[0], contact[1], new Segment(path.vertices[i], path.vertices[j])];
+			firstContact = [contact[0], contact[1], new Segment(edge.vertices[i], edge.vertices[j])];
 		}
 	}
 	return firstContact;
