@@ -73,24 +73,24 @@ Segment.prototype.intersectShape = function(shape){			// Détermine le point d'i
 }
 Segment.prototype.intersectPolygon = function(polygon){		// Détermine le point d'intersection de THIS avec le polygone polygon
 	/* firstContact enregistrera le contact le plus immédiat parmi ceux trouvés, nombreOfPoints conserve
-		le nombre de points ou "vertices" formant le polygone polygon */
-	var firstContact = false, nombreOfPoints = polygon.points.length;
-	/* La boucle for (sur i) parcours les points de proche en proche 
+		le nombre de vertices ou "vertices" formant le polygone polygon */
+	var firstContact = false, nombreOfPoints = polygon.vertices.length;
+	/* La boucle for (sur i) parcours les vertices de proche en proche 
 		La différence avec segment.intersecPath est qu'ici la dernière valeur de i est nombreOfPoints-1
 	*/
 	for(var i = 0, j; i < nombreOfPoints; i++)
 	{
 		/* i est l'indice du premier point à considérer, et j celui du suivant dans la liste des
-			points du polynome polynom (%l afin de récupérer le numéro 0 quand i est maximal) */
+			vertices du polynome polynom (%l afin de récupérer le numéro 0 quand i est maximal) */
 		j = (i+1)%nombreOfPoints;
-		// On récupére un éventuel contact entre le segment THIS et celui constitué des deux points étudiés
-		var contact = this.intersectSegment(new Segment(polygon.points[i], polygon.points[j]));
+		// On récupére un éventuel contact entre le segment THIS et celui constitué des deux vertices étudiés
+		var contact = this.intersectSegment(new Segment(polygon.vertices[i], polygon.vertices[j]));
 		// Si il y a bien contact, on le compare avec l'actuel "meilleur contact"
 		if(contact)
 		if(!firstContact || firstContact[0] > contact[0])
 		{
 			// Si il est meilleur, il devient le nouveau "meilleur contact" et on ajoute le segment incriminé de polynom
-			firstContact = [contact[0], contact[1], new Segment(polygon.points[i], polygon.points[j])];
+			firstContact = [contact[0], contact[1], new Segment(polygon.vertices[i], polygon.vertices[j])];
 		}
 	}
 	// On retourne firstContact qui contient alors le meilleur contact
@@ -99,14 +99,14 @@ Segment.prototype.intersectPolygon = function(polygon){		// Détermine le point 
 Segment.prototype.intersectPath = function(path){			// Détermine le point d'intersection de THIS avec le chemin path
 	// Pas de variable nombreOfPoints car il n'est utilisé qu'une fois
 	var firstContact = false;
-	// Pas de variable j ici car pas besoin de faire un %modulo% puisque i s'arrête à path.points.length-2
-	for(var i = 0; i < path.points.length-1; i++)
+	// Pas de variable j ici car pas besoin de faire un %modulo% puisque i s'arrête à path.vertices.length-2
+	for(var i = 0; i < path.vertices.length-1; i++)
 	{
-		var contact = this.intersectSegment(new Segment(path.points[i], path.points[i+1]));
+		var contact = this.intersectSegment(new Segment(path.vertices[i], path.vertices[i+1]));
 		if(contact)
 		if(!firstContact || firstContact[0] > contact[0])
 		{
-			firstContact = [contact[0], contact[1], new Segment(path.points[i], path.points[i+1])];
+			firstContact = [contact[0], contact[1], new Segment(path.vertices[i], path.vertices[i+1])];
 		}
 	}
 	return firstContact;
@@ -114,7 +114,7 @@ Segment.prototype.intersectPath = function(path){			// Détermine le point d'int
 Segment.prototype.intersectCircle = function(circle){		// Détermine le point d'intersection de THIS avec le cercle circle
 	var contact = null;
 	
-	// Enregistrement des points de contacts
+	// Enregistrement des vertices de contacts
 	var w = Vector.minus(this.v, this.u);
 	
 	/* On passe en représentation paramétrique,
@@ -167,7 +167,7 @@ Segment.prototype.intersectCircle = function(circle){		// Détermine le point d'
 	
 	return contact;
 }
-Segment.prototype.apsidesCircle = function(circle){			// Détermine les points de circle en lesquels THIS est tangeant
+Segment.prototype.apsidesCircle = function(circle){			// Détermine les vertices de circle en lesquels THIS est tangeant
 	var n = this.v.minus(this.u).normal().setNorm(circle.radius);
 	return [circle.center.plus(n), circle.center.plus(n.reverse())];
 }

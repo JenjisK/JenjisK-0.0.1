@@ -38,7 +38,7 @@ Arc.prototype.containDirection = function(u){			// TO TEST - Détermine si la di
 Arc.prototype.intersectSegment = function(s){ 			// Détermine le point d'intersection entre l'arc THIS et le segment s. Retour : [k, v]
 	var contact = null;
 	
-	// Enregistrement des points de contacts
+	// Enregistrement des vertices de contacts
 	var w = Vector.minus(s.v, s.u);
 	
 	/* On passe en représentation paramétrique,
@@ -109,29 +109,29 @@ Arc.prototype.intersectSegment = function(s){ 			// Détermine le point d'inters
 	return contact;
 }
 Arc.prototype.intersectPolygon = function(polygon){		// TO TEST - Détermine le point d'intersection entre l'arc THIS et le polygone polygon. Retour [k, v]
-	var firstContact = false, l = polygon.points.length, j;
+	var firstContact = false, l = polygon.vertices.length, j;
 	for(var i = 0; i < l; i++)
 	{
 		j = (i+1)%l;
-		var contact = this.intersectSegment(new Segment(polygon.points[i], polygon.points[j]));
+		var contact = this.intersectSegment(new Segment(polygon.vertices[i], polygon.vertices[j]));
 		if(contact)
 		if(!firstContact || firstContact[0] > contact[0])
 		{
-			firstContact = [contact[0], contact[1], new Segment(polygon.points[i], polygon.points[j])];
+			firstContact = [contact[0], contact[1], new Segment(polygon.vertices[i], polygon.vertices[j])];
 		}
 	}
 	return firstContact;
 }
 Arc.prototype.intersectPath = function(path){			// TO TEST - Détermine le point d'intersection entre l'arc THIS et le chemin path. Retour [k, v]
 	var firstContact = false, j;
-	for(var i = 0; i < path.points.length-1; i++)
+	for(var i = 0; i < path.vertices.length-1; i++)
 	{
 		j = i+1;
-		var contact = this.intersectSegment(new Segment(path.points[i], path.points[j]));
+		var contact = this.intersectSegment(new Segment(path.vertices[i], path.vertices[j]));
 		if(contact)
 		if(!firstContact || firstContact[0] > contact[0])
 		{
-			firstContact = [contact[0], contact[1], new Segment(path.points[i], path.points[j])];
+			firstContact = [contact[0], contact[1], new Segment(path.vertices[i], path.vertices[j])];
 		}
 	}
 	return firstContact;

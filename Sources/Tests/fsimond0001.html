@@ -1,0 +1,66 @@
+<!-- 
+	FONCTIONS TESTEES :
+		*	shape.intersectShape
+-->
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<style>#game{ border : 1px solid grey; position : absolute; top : 0px; left : 0px;}</style>
+	</head>
+	<body>
+		<!-- CANVAS -->
+		<canvas id='game' width=1000 height=562></canvas>
+		<!-- SCRIPTS -->
+		<script src='../Geometry/Vector.js'></script>
+		<script src='../Geometry/Segment.js'></script>
+		<script src='../Geometry/Arc.js'></script>
+		<script src='../Geometry/Shape.js'></script>
+		<!-- SCRIPT pour les test (quelques fonctions provisoires récurrentes) -->
+		<script src='test.js'></script>
+		<!-- SCRIPT -->
+		<script>
+			/* Récupération des éléments du DOM */
+			var game = document.getElementById('game');
+			var ctx = game.getContext('2d');
+			
+			/* Initialisation du test */
+			var circle = new Circle(500, 200, 125);
+			ctx.drawCircle(circle);
+			
+			var square = new Polygon();
+			
+			var myCircle = new Circle(0, 0, 75);
+					
+			var c = 0;
+					
+			/* Actions */
+			game.onmousemove = function(e)
+			{
+				x = e.clientX;
+				y = e.clientY;
+				if (c == 0) {
+					square.createRectangle(x, y, 75);
+				} else {
+					myCircle.center.x = x;
+					myCircle.center.y = y;					
+				}
+				ctx.clear();
+				ctx.drawCircle(circle);
+				ctx.drawPolygon(square);
+				ctx.drawCircle(myCircle);
+				
+				if (circle.intersectShape(square) || circle.intersectShape(myCircle)) {
+					console.log("intersection found");
+				}
+			}
+			
+			game.onmousedown = function(e)
+			{
+				c = (c+1)%2;
+			}
+		</script>
+	</body>
+</html>

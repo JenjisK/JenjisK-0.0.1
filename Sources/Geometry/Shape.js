@@ -19,6 +19,7 @@ Path.prototype = new Shape();
 function Polygon()
 {
 	this.type = "Polygon";
+	this.vertices = new Array();
 }
 /* Héritage déclaré */
 Polygon.prototype = new Shape();
@@ -110,6 +111,10 @@ Path.prototype.intersectCircle = function(circle){
 		}
 	}
 }
+Path.prototype.addVertice = function(u)
+{
+	this.vertices.push(u);
+}
 Circle.prototype.intersectPolygon = function(polygon){
 	return polygon.intersectCircle(this);
 }
@@ -117,7 +122,7 @@ Circle.prototype.intersectPath = function(path){
 	return path.intersectCircle(this);
 }
 Circle.prototype.intersectCircle = function(circle){
-	if((Vector.minus(this.center,circle.center).norm() < this.radius + circle.radius){
+	if(Vector.minus(this.center,circle.center).norm() < this.radius + circle.radius){
 		return true;
 	}else{
 		return false;
