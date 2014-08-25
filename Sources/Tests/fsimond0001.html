@@ -27,39 +27,51 @@
 			var ctx = game.getContext('2d');
 			
 			/* Initialisation du test */
-			var circle = new Circle(500, 200, 125);
+			var circle = new Circle();
+			circle.center = new Vector(500,100);
+			circle.radius = 125;
+			
 			ctx.drawCircle(circle);
 			
 			var square = new Polygon();
+			square.addVertice(new Vector(0,0));
+			square.addVertice(new Vector(0,0));
+			square.addVertice(new Vector(0,0));
+			square.addVertice(new Vector(0,0));
 			
-			var myCircle = new Circle(0, 0, 75);
+			var myCircle = new Circle();
+			myCircle.center = new Vector(0,0);
+			myCircle.radius = 75;
 					
 			var c = 0;
 					
 			/* Actions */
 			game.onmousemove = function(e)
 			{
-				x = e.clientX;
-				y = e.clientY;
+				var pos = z_object_click_position(game, e);
 				if (c == 0) {
-					square.createRectangle(x, y, 75);
-				} else {
-					myCircle.center.x = x;
-					myCircle.center.y = y;					
+					square.vertices[0] = pos;
+				}else if(c == 1){
+					square.vertices[1] = new Vector(pos.x,square.vertices[0].y);
+					square.vertices[2] = pos;
+					square.vertices[3] = new Vector(square.vertices[0].x,pos.y);
+				}else{
+					myCircle.center = pos;
 				}
 				ctx.clear();
 				ctx.drawCircle(circle);
 				ctx.drawPolygon(square);
 				ctx.drawCircle(myCircle);
 				
-				if (circle.intersectShape(square) || circle.intersectShape(myCircle)) {
+				console.clear();
+				if(circle.intersectShape(square) || circle.intersectShape(myCircle) || square.intersectShape(myCircle)) {
 					console.log("intersection found");
 				}
 			}
 			
 			game.onmousedown = function(e)
 			{
-				c = (c+1)%2;
+				c = (c+1)%3;
 			}
 		</script>
 	</body>
