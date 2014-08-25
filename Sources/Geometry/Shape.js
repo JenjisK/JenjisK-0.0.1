@@ -36,11 +36,11 @@ Circle.prototype = new Shape();
 Shape.prototype.intersectShape = function(shape){
 	switch(shape.type)
 	{
-		case 'polygon' :
+		case 'Polygon' :
 			return this.intersectPolygon(shape); break;
-		case 'path' :
+		case 'Path' :
 			return this.intersectPath(shape); break;
-		case 'circle' :
+		case 'Circle' :
 			return this.intersectCircle(shape); break;
 		default : console.group('Shape.intersectShape');console.error('Type Of Shape Undefined');console.log(shape);console.groupEnd('Shape.intersectShape');break;
 	}
