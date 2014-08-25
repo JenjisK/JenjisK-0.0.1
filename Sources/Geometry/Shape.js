@@ -21,30 +21,14 @@ function Polygon()
 	this.type = "Polygon";
 	this.vertices = new Array();
 }
-
 /* Héritage déclaré */
 Polygon.prototype = new Shape();
-
-Polygon.prototype.createRectangle = function(x, y, w, h) {
-	if( typeof(h) == 'undefined' ){
-        h = w;
-    }
-
-	while (this.vertices.length > 0) {
-		this.vertices.pop();
-	}
-	this.vertices.push(new Vector(x, y));
-	this.vertices.push(new Vector(x+w, y));
-	this.vertices.push(new Vector(x+w, y+h));
-	this.vertices.push(new Vector(x, y+h));
-}
-
 /* Circle est directement hérité de Shape */
-function Circle(x, y, r)
+function Circle()
 {
 	this.type = "Circle";
-	this.center = new Vector(x, y);
-	this.radius = r;
+	this.center = new Vector(0,0);
+	this.radius = 0;
 }
 /* Héritage déclaré */
 Circle.prototype = new Shape();
@@ -52,11 +36,11 @@ Circle.prototype = new Shape();
 Shape.prototype.intersectShape = function(shape){
 	switch(shape.type)
 	{
-		case 'Polygon' :
+		case 'polygon' :
 			return this.intersectPolygon(shape); break;
-		case 'Path' :
+		case 'path' :
 			return this.intersectPath(shape); break;
-		case 'Circle' :
+		case 'circle' :
 			return this.intersectCircle(shape); break;
 		default : console.group('Shape.intersectShape');console.error('Type Of Shape Undefined');console.log(shape);console.groupEnd('Shape.intersectShape');break;
 	}
@@ -101,6 +85,10 @@ Polygon.prototype.intersectCircle = function(circle){
 		}
 	}
 }
+Polygon.prototype.addVertice = function(u)
+{
+	this.vertices.push(u);
+}
 Path.prototype.intersectPolygon = function(polygon){
 	return polygon.intersectPath(this);
 }
@@ -138,11 +126,7 @@ Circle.prototype.intersectPath = function(path){
 	return path.intersectCircle(this);
 }
 Circle.prototype.intersectCircle = function(circle){
-<<<<<<< HEAD
 	if(Vector.minus(this.center,circle.center).norm() < this.radius + circle.radius){
-=======
-	if((Vector.minus(this.center,circle.center).norm() < this.radius + circle.radius)){
->>>>>>> origin/master
 		return true;
 	}else{
 		return false;
